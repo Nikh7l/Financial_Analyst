@@ -5,16 +5,21 @@ import re
 from typing import List, Optional, Dict, Any, TypedDict, Literal
 
 # --- Project Imports ---
+# TODO: Remove sys.path manipulation block below.
 import os
 import sys
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ..., from src import config, from src.agents... import ...)
 import config
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ..., from src import config, from src.agents... import ...)
 from config import logger
 # Use the new static prompt template
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ..., from src import config, from src.agents... import ...)
 from prompts import SENTIMENT_WORKER_PROMPT_TEMPLATE_STATIC
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ..., from src import config, from src.agents... import ...)
 from tools import get_news_articles, search_duck_duck_go, get_web_page_content, google_search
 
 # --- Langchain/LangGraph Imports ---

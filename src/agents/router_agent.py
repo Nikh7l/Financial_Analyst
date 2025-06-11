@@ -3,13 +3,13 @@ import logging
 import json
 from typing import Dict, Any
 from .base_agent import BaseAgent
-from state import AgentState
-from prompts import ROUTER_PROMPT_TEMPLATE 
+from src.core.state import AgentState
+from src.core.prompts import ROUTER_PROMPT_TEMPLATE
 from google import genai
 # from google.genai import types
 
 # Get logger
-from config import logger
+from src.config import logger
 
 class RouterAgent(BaseAgent):
     """

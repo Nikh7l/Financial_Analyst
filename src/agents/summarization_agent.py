@@ -3,9 +3,9 @@ from typing import Dict, Any
 from dotenv import load_dotenv
 import sys
 # Import project components
-from state import RetrievalSummarizationState
-import tools # Import the tools module
-from tools import FinancialSummary # Import the response model
+from src.core.state import RetrievalSummarizationState
+from src.core import tools # Import the tools module
+from src.core.tools import FinancialSummary # Import the response model
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
@@ -14,7 +14,7 @@ doenv_path = os.path.join(project_root, '.env')
 load_dotenv(dotenv_path=dotenv_path)
 api_key = os.getenv("GOOGLE_API_KEY")
 from google import genai
-from config import logger
+from src.config import logger
 
 
 MAX_SUMMARIES_TO_PROCESS = 3

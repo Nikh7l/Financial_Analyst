@@ -6,15 +6,19 @@ import pytest # Using pytest features like fixtures and parametrize
 from dotenv import load_dotenv
 
 # --- Add project root to sys.path ---
+# TODO: Remove sys.path manipulation block below.
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 # ------------------------------------
 
 # Import necessary components from your project
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 import config # This will run the logging configuration
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from state import AgentState
 # Import the agent and the workflow constants it defines
+# TODO: Update this import. Path may need significant revision if 'Financial_advisor.old.planner_agent' was moved/refactored.
 from Financial_advisor.old.planner_agent import PlannerAgent, COMPANY_WORKFLOW, SECTOR_WORKFLOW
 
 # Import Gemini library

@@ -15,13 +15,16 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # --- Add project root to sys.path ---
+# TODO: Remove sys.path manipulation block below.
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 # ------------------------------------
 
 # Import the agent graph runnable
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from agents.retrieval_agent import retrieval_agent_runnable
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 import config # For API Key check
 
 # Configure logging if running directly

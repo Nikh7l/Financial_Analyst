@@ -2,12 +2,12 @@
 import json
 import re
 from typing import Dict, Any, List, Optional
-from state import AgentState ,StockPredictionOutput
-from prompts import STOCK_PREDICTION_PROMPT_TEMPLATE 
+from src.core.state import AgentState, StockPredictionOutput
+from src.core.prompts import STOCK_PREDICTION_PROMPT_TEMPLATE
 from langchain_google_genai import ChatGoogleGenerativeAI 
 from langchain_core.messages import HumanMessage
-import config 
-from config import logger
+from src import config
+from src.config import logger
 
 try:
     prediction_llm = ChatGoogleGenerativeAI(

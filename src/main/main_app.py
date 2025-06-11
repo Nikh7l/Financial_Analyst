@@ -11,7 +11,9 @@ from typing import Dict, Any, Optional
 # Make sure 'app' (compiled graph) is accessible here
 # You might need to adjust imports based on your final structure
 # It's often good to have a separate module that initializes and returns the compiled graph
+# TODO: Update this import to be relative: from .main import app as langgraph_app, AgentState
 from main_graph import app as langgraph_app, AgentState # Assuming app is compiled in main_graph.py
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.config import logger)
 from config import logger
 
 # --- FastAPI App Initialization ---

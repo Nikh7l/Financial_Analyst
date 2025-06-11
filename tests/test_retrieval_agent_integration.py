@@ -10,16 +10,22 @@ import time # For potential delays
 from dotenv import load_dotenv
 
 # --- Add project root to sys.path ---
+# TODO: Remove sys.path manipulation block below.
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 # ------------------------------------
 
 # Import necessary components
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 import config # Ensure config is loaded
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from state import AgentState
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from agents.retrieval_agent import DocumentRetrievalAgent
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 import tools # Need the real tool functions
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from tools import SearchResponse, URLValidityResult # Import needed types
 
 # Import external library exceptions if needed for catching

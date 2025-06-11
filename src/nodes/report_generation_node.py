@@ -4,9 +4,13 @@ from datetime import date
 from typing import Dict, Any, List, Set
 from langchain_google_genai import ChatGoogleGenerativeAI # Or your chosen LLM
 from langchain_core.messages import HumanMessage
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src import config)
 import config # For LLM model name, etc.
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.state import AgentState)
 from state import AgentState
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import LLM_REPORT_GENERATION_PROMPT_TEMPLATE)
 from prompts import LLM_REPORT_GENERATION_PROMPT_TEMPLATE
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.config import logger)
 from config import logger
 
 try:

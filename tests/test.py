@@ -1,4 +1,5 @@
 # Run this in a script or notebook, not as a unit test
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from tools import search_duck_duck_go, google_search,get_news_articles,check_pdf_url_validity,get_stock_data
 
 # print("Running test for DuckDuckGo and Google search tools...")

@@ -3,22 +3,38 @@ import time
 from langgraph.graph import StateGraph, END
 from typing import TypedDict, Optional, List, Dict, Any
 from datetime import date 
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.config import logger)
 from config import logger
 from google import genai
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src import config)
 import config
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.state import ...)
 from state import AgentState , RetrievalSummarizationState,ReportSummariesPayload,StockDataPayload,StockInfoPayload,SentimentAnalysisPayload,CompetitorSubgraphState,SentimentSubgraphState,CompetitorAnalysisPayload,CompetitorDetailPayload,SectorSentimentAnalysisPayload,SectorKeyPlayersPayload,SectorMarketDataPayload,SectorTrendsInnovationsPayload
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.agents.router_agent import RouterAgent)
 from agents.router_agent import RouterAgent
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.subgraphs.retrieval_summarization_graph import ...)
 from agents.retrieval_summarization_graph import create_retrieval_summarization_graph
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.subgraphs.stock_agent_subgraph import ...)
 from agents.stock_agent_subgraph import stock_data_subgraph_runnable,StockDataSubgraphState
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.subgraphs.competitor_analysis_subgraph import ...)
 from agents.competetior_anaysis_subgraph import competitor_analysis_subgraph_runnable, CompetitorSubgraphState
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.subgraphs.sentiment_agent_subgraph import ...)
 from agents.sentiment_agent_subgraph import sentiment_analysis_subgraph_runnable,SentimentSubgraphState,MAX_SENTIMENT_ATTEMPTS 
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.agents.company_analysis import ...)
 from agents.company_analysis import predict_stock_price_node
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.nodes.report_generation_node import ...)
 from agents.report_generation_node import generate_llm_based_report_node
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.subgraphs.sector_keyplayers_subgraph import ...)
 from agents.sector_keyplayers_subgraph import sector_key_players_subgraph_runnable, SectorKeyPlayersSubgraphState,MAX_KEY_PLAYERS_ATTEMPTS
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.subgraphs.sector_sentiment_subgraph import ...)
 from agents.sector_sentiment_subgraph import sector_sentiment_analysis_subgraph_runnable, SectorSentimentSubgraphState,MAX_SECTOR_SENTIMENT_ATTEMPTS
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.subgraphs.sector_market_data_subgraph import ...)
 from agents.sector_market_data_subgraph import sector_market_data_subgraph_runnable, SectorMarketDataSubgraphState,MAX_MARKET_DATA_ATTEMPTS
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.subgraphs.sector_trends_subgraph import ...)
 from agents.sector_trends_subgraph import sector_trends_subgraph_runnable, SectorTrendsSubgraphState, MAX_TRENDS_ATTEMPTS
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.nodes.sector_analysis_node import ...)
 from agents.sector_analysis_node import synthesize_sector_outlook_node
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.nodes.sector_report_node import ...)
 from agents.sector_report_node import generate_llm_sector_report_node
 
 # Instantiate your agents

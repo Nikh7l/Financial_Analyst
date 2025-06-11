@@ -1,9 +1,7 @@
 # agents/competitor_analysis_subgraph.py
 from typing import TypedDict, List, Dict, Any, Optional
-import os
-import sys
 from langchain_core.messages import BaseMessage
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# TODO: Remove sys.path manipulation block below and the duplicated class definitions that follow.
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
@@ -28,6 +26,7 @@ class CompetitorSubgraphState(TypedDict, total=False):
     _route_decision: Optional[str]
 
 
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ... or from src import config)
 from config import logging
 import json
 import re
@@ -41,9 +40,12 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import BaseMessage, AIMessage, HumanMessage
 
 # Project components
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ... or from src import config)
 import config
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ... or from src import config)
 from prompts import COMPETITOR_WORKER_PROMPT
 # Import the needed *underlying* tools
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ... or from src import config)
 from tools import google_search, search_duck_duck_go, get_web_page_content
 
 logger = logging.getLogger(__name__)
@@ -212,6 +214,7 @@ if __name__ == '__main__':
     import time
     from dotenv import load_dotenv
     from google import genai # To configure client
+    # TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ... or from src import config)
     from config import logger
 
     # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

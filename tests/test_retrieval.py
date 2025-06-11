@@ -10,16 +10,22 @@ from typing import List, Dict, Any
 from dotenv import load_dotenv
 
 # --- Add project root to sys.path ---
+# TODO: Remove sys.path manipulation block below.
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 # ------------------------------------
 
 # Import necessary components
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 import config
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from state import AgentState
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from agents.retrieval_agent import DocumentRetrievalAgent
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 import tools # Import module to allow patching its functions
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from tools import SearchResponse, URLValidityResult, PageSummary # Import response models
 
 # Import Gemini library (needed for client setup)
@@ -80,6 +86,7 @@ MOCK_SEARCH_RESULTS_NON_RELEVANT = [
 ])
 def test_get_target_periods(mocker, configured_client, mock_today, expected_annual_yr, expected_q, expected_q_yr):
     """Tests the internal _get_target_periods logic."""
+    # TODO: Update mocker.patch path to reflect 'src.' structure (e.g., 'src.core.tools.X').
     mocker.patch('agents.retrieval_agent.date').today.return_value = mock_today
     # Instantiate with dummy tools dict for this internal test
     agent = DocumentRetrievalAgent(client=configured_client, model_name="test", tools=agent_tools_list)
@@ -167,7 +174,9 @@ def test_run_retrieval_agent(mocker, configured_client, company_name, mock_today
 
 
     # --- NOW, patch the *instance attributes* holding the tool methods ---
+    # TODO: Update mocker.patch path to reflect 'src.' structure (e.g., 'src.core.tools.X').
     mock_search = mocker.patch.object(agent, 'search_tool', side_effect=mock_search_side_effect)
+    # TODO: Update mocker.patch path to reflect 'src.' structure (e.g., 'src.core.tools.X').
     mock_validate = mocker.patch.object(agent, 'url_validator', side_effect=mock_url_validation_side_effect)
     # ---------------------------------------------------------------------
 

@@ -4,13 +4,17 @@ import sys
 import logging
 # --- Add project root to sys.path ---
 # This assumes test_router.py is in /financial_advisor_tool/tests/
+# TODO: Remove sys.path manipulation block below.
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 # ------------------------------------
 # Now you can import modules from the project root
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 import config # This will run the logging configuration
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from state import AgentState
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.tools import ..., from src import config, from src.agents... import ...)
 from agents.router_agent import RouterAgent
 from google import genai
 

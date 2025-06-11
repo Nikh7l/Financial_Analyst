@@ -1,4 +1,5 @@
 # In your main graph file or a new file like sector_analysis_nodes.py
+# TODO: Remove sys.path manipulation block below.
 import os
 import sys
 import json
@@ -10,10 +11,13 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from state import AgentState, SectorOutlookPayload, SectorOutlookDetail # Your state types
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ...)
 from prompts import SECTOR_SYNTHESIS_OUTLOOK_PROMPT_TEMPLATE
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src import config)
 import config
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.config import logger)
 from config import logger
 from datetime import date
 

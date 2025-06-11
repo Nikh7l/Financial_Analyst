@@ -3,6 +3,7 @@ import logging
 import json
 import re
 from typing import Dict, Any, List, Optional, TypedDict
+# TODO: Remove sys.path manipulation block below.
 import os 
 import sys
 # Langchain/LangGraph components
@@ -17,8 +18,10 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 # Project components
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ..., from src import config, from src.agents... import ...)
 import config
 # from prompts import STOCK_DATA_WORKER_PROMPT
+# TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ..., from src import config, from src.agents... import ...)
 from tools import search_duck_duck_go, get_web_page_content,google_search
 
 from config import logger
@@ -225,6 +228,7 @@ if __name__ == '__main__':
     import time
     from dotenv import load_dotenv
     from google import genai # To configure client
+    # TODO: Update this import to reflect the new 'src.' structure (e.g., from src.core.prompts import ..., from src import config, from src.agents... import ...)
     from config import logger
     # Configure logging for direct run
     # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

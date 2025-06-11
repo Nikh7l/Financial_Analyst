@@ -12,9 +12,9 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Project components
-import config
-from prompts import REACT_RETRIEVAL_SYSTEM_PROMPT
-from tools import search_duck_duck_go, check_pdf_url_validity, get_web_page_content,google_search
+from src import config
+from src.core.prompts import REACT_RETRIEVAL_SYSTEM_PROMPT
+from src.core.tools import search_duck_duck_go, check_pdf_url_validity, get_web_page_content, google_search
 
 logger = logging.getLogger(__name__)
 
