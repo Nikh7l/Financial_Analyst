@@ -1,36 +1,23 @@
 # retrieval_summarization_graph.py
 import json
 import re
-import os
-import sys
 from typing import Dict, Any, List, Optional, TypedDict
-
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
 
 # LangGraph components
 from langgraph.graph import StateGraph, START, END
 from langchain_core.messages import BaseMessage, ToolMessage, AIMessage
 
-# Import the compiled ReAct agent runnable
+# Project imports
 from agents.retrieval_agent import retrieval_agent_runnable
-
-# Import the summarization node function (assuming it's in its own file now)
 from agents.summarization_agent import summarize_documents_node
+from core.state import RetrievalSummarizationState
 
-# Import state definition
-# from subgraph_state import RetrievalSummarizationState # If defined separately
-# Or define locally:
-class RetrievalSummarizationState(TypedDict):
-    company_name: str
-    document_urls: Optional[List[str]]
-    document_summaries: Optional[Dict[str, str]]
-    subgraph_error: Optional[str]
-    messages: List[BaseMessage] # For ReAct agent
+import os
+import sys
+from pathlib import Path
+from config import config
 
-from config import logger
-
+logger = config.logger
 # --- Node Logic Functions ---
 
 def process_retrieval_output(state: RetrievalSummarizationState) -> Dict[str, Any]:

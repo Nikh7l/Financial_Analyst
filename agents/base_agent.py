@@ -1,14 +1,14 @@
 # agents/base_agent.py
+import inspect
+import logging
 from abc import ABC, abstractmethod
 from typing import Callable, List, Dict, Any, Optional
-import logging
-import inspect # Keep inspect
 
-# Import NEW Gemini libraries and types
+# Third-party imports
 from google import genai
 from google.genai import types
 
-# Import the state definition
+# Local imports
 from core.state import AgentState
 
 logger = logging.getLogger(__name__)

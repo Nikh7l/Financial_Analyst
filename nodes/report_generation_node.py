@@ -1,17 +1,22 @@
-# agents/report_generation_node.py
+# nodes/report_generation_node.py
 import json
 from datetime import date
 from typing import Dict, Any, List, Set
-from langchain_google_genai import ChatGoogleGenerativeAI # Or your chosen LLM
+
+# Third-party imports
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
-import config # For LLM model name, etc.
-from state import AgentState
-from prompts import LLM_REPORT_GENERATION_PROMPT_TEMPLATE
-from config import logger
+
+# Local imports
+from config import config
+from core.state import AgentState
+from core.prompts import LLM_REPORT_GENERATION_PROMPT_TEMPLATE
+
+logger = config.logger
 
 try:
     report_generation_llm = ChatGoogleGenerativeAI(
-        model=config.GEMINI_MODEL_NAME_PRO, # Use a model good at long-form generation
+        model=config.GEMINI_MODEL_NAME, # Use a model good at long-form generation
         temperature=0.2,
         convert_system_message_to_human=True
     )

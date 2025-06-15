@@ -1,17 +1,21 @@
-# agents/company_analysis.py
+# nodes/company_analysis.py
 import json
 import re
 from typing import Dict, Any, List, Optional
-from state import AgentState ,StockPredictionOutput
-from prompts import STOCK_PREDICTION_PROMPT_TEMPLATE 
-from langchain_google_genai import ChatGoogleGenerativeAI 
+
+# Third-party imports
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
-import config 
-from config import logger
+
+# Local imports
+from config import config
+from core.state import AgentState, StockPredictionOutput
+from core.prompts import STOCK_PREDICTION_PROMPT_TEMPLATE
+logger = config.logger
 
 try:
     prediction_llm = ChatGoogleGenerativeAI(
-        model=config.GEMINI_MODEL_NAME_PRO, 
+        model=config.GEMINI_MODEL_NAME, 
         temperature=0.1, 
         convert_system_message_to_human=True 
     )

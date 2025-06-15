@@ -1,25 +1,38 @@
 import sys
 import time
+from pathlib import Path
+from dotenv import load_dotenv
 from langgraph.graph import StateGraph, END
 from typing import TypedDict, Optional, List, Dict, Any
-from datetime import date 
-from config import logger
 from google import genai
-import config
-from state import AgentState , RetrievalSummarizationState,ReportSummariesPayload,StockDataPayload,StockInfoPayload,SentimentAnalysisPayload,CompetitorSubgraphState,SentimentSubgraphState,CompetitorAnalysisPayload,CompetitorDetailPayload,SectorSentimentAnalysisPayload,SectorKeyPlayersPayload,SectorMarketDataPayload,SectorTrendsInnovationsPayload
+
+# Load environment variables from .env file in the project root
+env_path = Path(__file__).parent / '.env'
+load_dotenv(dotenv_path=env_path, override=True)
+
+from config import config
+
+logger = config.logger
+logger.info(f"Loaded environment variables from: {env_path.absolute()}")
+
+# Verify required environment variables
+if not config.GOOGLE_API_KEY:
+    logger.error("CRITICAL: GOOGLE_API_KEY environment variable not found")
+    sys.exit(1)
+from core.state import AgentState , RetrievalSummarizationState,ReportSummariesPayload,StockDataPayload,StockInfoPayload,SentimentAnalysisPayload,CompetitorSubgraphState,SentimentSubgraphState,CompetitorAnalysisPayload,CompetitorDetailPayload,SectorSentimentAnalysisPayload,SectorKeyPlayersPayload,SectorMarketDataPayload,SectorTrendsInnovationsPayload
 from agents.router_agent import RouterAgent
-from agents.retrieval_summarization_graph import create_retrieval_summarization_graph
-from agents.stock_agent_subgraph import stock_data_subgraph_runnable,StockDataSubgraphState
-from agents.competetior_anaysis_subgraph import competitor_analysis_subgraph_runnable, CompetitorSubgraphState
-from agents.sentiment_agent_subgraph import sentiment_analysis_subgraph_runnable,SentimentSubgraphState,MAX_SENTIMENT_ATTEMPTS 
-from agents.company_analysis import predict_stock_price_node
-from agents.report_generation_node import generate_llm_based_report_node
-from agents.sector_keyplayers_subgraph import sector_key_players_subgraph_runnable, SectorKeyPlayersSubgraphState,MAX_KEY_PLAYERS_ATTEMPTS
-from agents.sector_sentiment_subgraph import sector_sentiment_analysis_subgraph_runnable, SectorSentimentSubgraphState,MAX_SECTOR_SENTIMENT_ATTEMPTS
-from agents.sector_market_data_subgraph import sector_market_data_subgraph_runnable, SectorMarketDataSubgraphState,MAX_MARKET_DATA_ATTEMPTS
-from agents.sector_trends_subgraph import sector_trends_subgraph_runnable, SectorTrendsSubgraphState, MAX_TRENDS_ATTEMPTS
-from agents.sector_analysis_node import synthesize_sector_outlook_node
-from agents.sector_report_node import generate_llm_sector_report_node
+from subgraphs.retrieval_summarization_graph import create_retrieval_summarization_graph
+from subgraphs.stock_agent_subgraph import stock_data_subgraph_runnable,StockDataSubgraphState
+from subgraphs.competetior_anaysis_subgraph import competitor_analysis_subgraph_runnable, CompetitorSubgraphState
+from subgraphs.sentiment_agent_subgraph import sentiment_analysis_subgraph_runnable,SentimentSubgraphState,MAX_SENTIMENT_ATTEMPTS 
+from nodes.company_analysis import predict_stock_price_node
+from nodes.report_generation_node import generate_llm_based_report_node
+from subgraphs.sector_keyplayers_subgraph import sector_key_players_subgraph_runnable, SectorKeyPlayersSubgraphState,MAX_KEY_PLAYERS_ATTEMPTS
+from subgraphs.sector_sentiment_subgraph import sector_sentiment_analysis_subgraph_runnable, SectorSentimentSubgraphState,MAX_SECTOR_SENTIMENT_ATTEMPTS
+from subgraphs.sector_market_data_subgraph import sector_market_data_subgraph_runnable, SectorMarketDataSubgraphState,MAX_MARKET_DATA_ATTEMPTS
+from subgraphs.sector_trends_subgraph import sector_trends_subgraph_runnable, SectorTrendsSubgraphState, MAX_TRENDS_ATTEMPTS
+from nodes.sector_analysis_node import synthesize_sector_outlook_node
+from nodes.sector_report_node import generate_llm_sector_report_node
 
 # Instantiate your agents
 

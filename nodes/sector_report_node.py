@@ -1,15 +1,19 @@
-# In your main graph file or a new file like sector_analysis_nodes.py
-
+# nodes/sector_report_node.py
 import json
 from datetime import date
-from typing import Dict, Any, List, Set,Optional
-from state import AgentState # Assuming state is defined
-from config import logger
+from typing import Dict, Any, List, Set, Optional
+
+# Third-party imports
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
-import config # For LLM model name, etc.
-from prompts import LLM_SECTOR_REPORT_GENERATION_PROMPT_TEMPLATE
-from agents.sector_analysis_node import prepare_data_for_llm_sector_report
+
+# Local imports
+from config import config
+from core.state import AgentState
+from core.prompts import LLM_SECTOR_REPORT_GENERATION_PROMPT_TEMPLATE
+from nodes.sector_analysis_node import prepare_data_for_llm_sector_report
+
+logger = config.logger
 
 try:
     report_generation_llm = ChatGoogleGenerativeAI(

@@ -6,17 +6,10 @@ import re
 from typing import List, Optional, Dict, Any, TypedDict, Literal
 
 # --- Project Imports ---
-import os
-import sys
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-import config
-from config import logger
-from state import SectorKeyPlayerDetail 
-from prompts import SECTOR_KEY_PLAYERS_PROMPT_TEMPLATE_STATIC # Use the new detailed prompt
-from tools import google_search, search_duck_duck_go, get_web_page_content # Add get_page_content
+from config import config
+from core.state import SectorKeyPlayerDetail 
+from core.prompts import SECTOR_KEY_PLAYERS_PROMPT_TEMPLATE_STATIC
+from core.tools import google_search, search_duck_duck_go, get_web_page_content
 
 # --- Langchain/LangGraph Imports ---
 from langgraph.graph import StateGraph, START, END
@@ -26,6 +19,7 @@ from langchain_core.messages import HumanMessage, AIMessage, BaseMessage, ToolMe
 
 # --- Constants ---
 MAX_KEY_PLAYERS_ATTEMPTS = 2
+logger = config.logger
 
 
 class SectorKeyPlayersSubgraphState(TypedDict, total=False):
@@ -201,15 +195,11 @@ sector_key_players_subgraph_runnable = create_sector_key_players_graph()
 if __name__ == '__main__':
     import pprint
     import time
-    from dotenv import load_dotenv
-
-    if not logger.handlers:
-        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
-    logger.info("--- Running SECTOR Key Players Analysis Subgraph Directly ---")
-    dotenv_path = os.path.join(project_root, '.env')
-    if os.path.exists(dotenv_path): load_dotenv(dotenv_path); logger.info(f".env loaded.")
-    else: logger.warning(f".env not found at {dotenv_path}.")
+    import os
+    import sys
+    from pathlib import Path
+    from config import logger, config
+    from core.state import SectorKeyPlayersSubgraphState
 
     if not config.GOOGLE_API_KEY: logger.error("CRITICAL: GOOGLE_API_KEY missing."); exit(1)
     # Add other API key checks if needed for search tools

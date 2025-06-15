@@ -1,27 +1,26 @@
-# In your main graph file or a new file like sector_analysis_nodes.py
-import os
-import sys
+# nodes/sector_analysis_node.py
 import json
+import os
 import re
+import sys
+from datetime import date
 from typing import Dict, Any, List, Optional, Set
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from state import AgentState, SectorOutlookPayload, SectorOutlookDetail # Your state types
-from prompts import SECTOR_SYNTHESIS_OUTLOOK_PROMPT_TEMPLATE
+# Third-party imports
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
-import config
-from config import logger
-from datetime import date
 
+# Local imports
+from config import config
+from core.state import AgentState, SectorOutlookPayload, SectorOutlookDetail
+from core.prompts import SECTOR_SYNTHESIS_OUTLOOK_PROMPT_TEMPLATE
+
+logger = config.logger
 
 # Initialize LLM for sector outlook synthesis
 try:
     sector_outlook_llm = ChatGoogleGenerativeAI(
-        model=config.GEMINI_MODEL_NAME_PRO, # Use a powerful model for synthesis
+        model=config.GEMINI_MODEL_NAME, # Use a powerful model for synthesis
         temperature=0.2,
         convert_system_message_to_human=True
     )

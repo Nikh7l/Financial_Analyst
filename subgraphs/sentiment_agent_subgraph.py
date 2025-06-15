@@ -5,17 +5,9 @@ import re
 from typing import List, Optional, Dict, Any, TypedDict, Literal
 
 # --- Project Imports ---
-import os
-import sys
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-import config
-from config import logger
-# Use the new static prompt template
-from prompts import SENTIMENT_WORKER_PROMPT_TEMPLATE_STATIC
-from tools import get_news_articles, search_duck_duck_go, get_web_page_content, google_search
+from config import config
+from core.prompts import SENTIMENT_WORKER_PROMPT_TEMPLATE_STATIC
+from core.tools import get_news_articles, search_duck_duck_go, get_web_page_content, google_search
 
 # --- Langchain/LangGraph Imports ---
 from langgraph.graph import StateGraph, START, END # Use START for clarity
@@ -25,6 +17,7 @@ from langchain_core.messages import HumanMessage, AIMessage, BaseMessage, ToolMe
 
 # --- Constants ---
 MAX_SENTIMENT_ATTEMPTS = 2
+logger = config.logger
 
 # --- State Definition for this Subgraph ---
 class SentimentSubgraphState(TypedDict, total=False):
@@ -246,18 +239,16 @@ sentiment_analysis_subgraph_runnable = create_sentiment_analysis_graph()
 if __name__ == '__main__':
     import pprint
     import time
-    from dotenv import load_dotenv
+    import os
+    import sys
+    from pathlib import Path
+    from config import logger, config
+    from core.state import SentimentSubgraphState
 
-    if not logger.handlers:
-        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    logger.info("--- Running Sentiment Analysis Worker Subgraph Directly (Static Prompt Method) ---")
-    dotenv_path = os.path.join(project_root, '.env')
-    if os.path.exists(dotenv_path):
-        load_dotenv(dotenv_path); logger.info(f".env file loaded from {dotenv_path}")
-    else:
-        logger.warning(f".env file not found at {dotenv_path}.")
-
-    if not config.GOOGLE_API_KEY: logger.error("CRITICAL: GOOGLE_API_KEY not found."); exit(1)
+    # Verify required API keys
+    if not config.GOOGLE_API_KEY: 
+        logger.error("CRITICAL: GOOGLE_API_KEY not found in environment variables.")
+        exit(1)
     if not config.NEWS_API_KEY: logger.warning("NEWS_API_KEY not found. 'get_news_articles' tool may fail.")
 
     test_companies = ["Nvidia", "Microsoft"]

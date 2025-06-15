@@ -1,4 +1,5 @@
 # tools.py
+from logging import Logger
 import requests
 
 old_request = requests.Session.request
@@ -25,11 +26,10 @@ from google.genai import types
 from datetime import date, timedelta
 from tenacity import retry , stop_after_attempt,wait_exponential,retry_if_exception_type
 # Import configuration settings
-from config.config import SEARCH_RESULTS_LIMIT 
+from config import config 
 
 # Get logger (configured in config.py)
-import logging
-logger = logging.getLogger(__name__)
+logger = config.logger
 
 # --- Pydantic Models for Tool Outputs ---
 # (Keep most of your models, maybe add success/error fields)
@@ -325,7 +325,7 @@ def summarize_pdf_document_finance(doc_url: str, client: genai.Client) -> Financ
 
 
 @catch_tool_exceptions
-def search_duck_duck_go(query: str, num_results: int = SEARCH_RESULTS_LIMIT) -> SearchResponse:
+def search_duck_duck_go(query: str, num_results: int = config.SEARCH_RESULTS_LIMIT) -> SearchResponse:
     """
     Performs a search using DuckDuckGo and returns summaries.
 
@@ -349,7 +349,7 @@ def search_duck_duck_go(query: str, num_results: int = SEARCH_RESULTS_LIMIT) -> 
 
 
 @catch_tool_exceptions
-def google_search(query: str, num_results: int = SEARCH_RESULTS_LIMIT, fetch_body: bool = False) -> GoogleSearchResponse:
+def google_search(query: str, num_results: int = config.SEARCH_RESULTS_LIMIT, fetch_body: bool = False) -> GoogleSearchResponse:
     """
     Performs a Google search using the Custom Search API. Optionally fetches page content.
 

@@ -3,25 +3,21 @@ import logging
 import json
 import re
 from typing import Dict, Any, List, Optional, TypedDict
-import os 
-import sys
+
 # Langchain/LangGraph components
-from langchain_core.pydantic_v1 import BaseModel, Field # Keep for potential internal use
+from langchain_core.pydantic_v1 import BaseModel, Field  # Keep for potential internal use
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import create_react_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import BaseMessage, AIMessage, HumanMessage
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
 # Project components
-import config
-# from prompts import STOCK_DATA_WORKER_PROMPT
-from tools import search_duck_duck_go, get_web_page_content,google_search
+from config import config
+from core.tools import search_duck_duck_go, get_web_page_content, google_search
 
-from config import logger
+# import logger
+logger = config.logger
+
 
 class StockDataSubgraphState(TypedDict, total=False):
     company_name: str
@@ -218,20 +214,20 @@ def create_stock_data_graph() :
 stock_data_subgraph_runnable = create_stock_data_graph()
 
 
-
 # --- Main Block for Direct Subgraph Testing ---
 if __name__ == '__main__':
     import pprint
     import time
-    from dotenv import load_dotenv
-    from google import genai # To configure client
-    from config import logger
-    # Configure logging for direct run
-    # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    from google import genai
+    import os
+    import sys
+    from pathlib import Path
+    from config import logger, config
+    from core.state import StockDataSubgraphState
+
     logger.info("--- Running Stock Data Worker Subgraph Directly ---")
 
-    # Load .env variables
-    load_dotenv()
+    # Use config directly without loading .env
     if not config.GOOGLE_API_KEY: print("ERROR: GOOGLE_API_KEY not set."); exit()
     if not config.GOOGLE_SEARCH_API_KEY: print("ERROR: GOOGLE_SEARCH_API_KEY not set."); exit() # Also check search key
     if not config.GOOGLE_CSE_ID: print("ERROR: GOOGLE_CSE_ID not set."); exit()

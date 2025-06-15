@@ -1,21 +1,16 @@
-import os
 from typing import Dict, Any
-from dotenv import load_dotenv
-import sys
-# Import project components
-from state import RetrievalSummarizationState
-import tools # Import the tools module
-from tools import FinancialSummary # Import the response model
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
 
-doenv_path = os.path.join(project_root, '.env')
-load_dotenv(dotenv_path=dotenv_path)
-api_key = os.getenv("GOOGLE_API_KEY")
+# Third-party imports
 from google import genai
-from config import logger
 
+# Local imports
+from core.state import RetrievalSummarizationState
+from core.tools import FinancialSummary, summarize_pdf_document_finance
+from config import config
+
+# Get API key from config
+api_key = config.GOOGLE_API_KEY
+logger = config.logger
 
 MAX_SUMMARIES_TO_PROCESS = 3
 
@@ -55,7 +50,7 @@ def summarize_documents_node(state: RetrievalSummarizationState) -> Dict[str, An
         logger.info(f"  Summarizing URL {i+1}/{len(urls_to_process)}: {url}")
         try:
             # --- Pass the client explicitly to the tool ---
-            summary_result: FinancialSummary = tools.summarize_pdf_document_finance(
+            summary_result: FinancialSummary = summarize_pdf_document_finance(
                 doc_url=url,
                 client=client 
             )

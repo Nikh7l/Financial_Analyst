@@ -1,34 +1,3 @@
-# agents/competitor_analysis_subgraph.py
-from typing import TypedDict, List, Dict, Any, Optional
-import os
-import sys
-from langchain_core.messages import BaseMessage
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-# Define a structure for competitor info
-class CompetitorInfo(TypedDict):
-    name: str
-    description: Optional[str] # Brief description
-
-class CompetitorSubgraphState(TypedDict, total=False):
-    # Input
-    company_name: str
-    # Control flow / Retries
-    attempt: int
-    max_attempts: int
-    # Scratchpad for ReAct agent
-    messages: List[BaseMessage]
-    # Output Data
-    competitors: Optional[List[CompetitorInfo]] # List of dicts now
-    # Output Error for this subgraph
-    subgraph_error: Optional[str]
-    # Internal routing flag
-    _route_decision: Optional[str]
-
-
-from config import logging
 import json
 import re
 from typing import Dict, Any, List, Optional, TypedDict, Callable # Added Callable
@@ -41,12 +10,11 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import BaseMessage, AIMessage, HumanMessage
 
 # Project components
-import config
-from prompts import COMPETITOR_WORKER_PROMPT
-# Import the needed *underlying* tools
-from tools import google_search, search_duck_duck_go, get_web_page_content
+from core.prompts import COMPETITOR_WORKER_PROMPT
+from core.tools import google_search, search_duck_duck_go, get_web_page_content
+from config import config
 
-logger = logging.getLogger(__name__)
+logger = config.logger
 
 # --- State Definition ---
 class CompetitorInfo(TypedDict):
@@ -210,14 +178,16 @@ competitor_analysis_subgraph_runnable = create_competitor_analysis_graph()
 if __name__ == '__main__':
     import pprint
     import time
-    from dotenv import load_dotenv
-    from google import genai # To configure client
-    from config import logger
+    from google import genai
+    import os
+    import sys
+    from pathlib import Path
+    from config import config
 
-    # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logger = config.logger
+
     logger.info("--- Running Competitor Analysis Worker Subgraph Directly ---")
 
-    load_dotenv()
     if not config.GOOGLE_API_KEY: 
         print("ERROR: GOOGLE_API_KEY not set.")
         exit()

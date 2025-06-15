@@ -4,26 +4,18 @@ import re
 from typing import List, Optional, Dict, Any, TypedDict, Literal
 
 # --- Project Imports ---
-import os
-import sys
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-import config
-from config import logger
-from prompts import SECTOR_NEWS_SENTIMENT_PROMPT_TEMPLATE_STATIC
-from tools import get_news_articles, search_duck_duck_go, get_web_page_content, google_search
-
+from config import config
+from core.prompts import SECTOR_NEWS_SENTIMENT_PROMPT_TEMPLATE_STATIC
+from core.state import SectorSentimentSubgraphState
+from core.tools import get_news_articles, search_duck_duck_go, get_web_page_content, google_search
 # --- Langchain/LangGraph Imports ---
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import create_react_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, AIMessage, BaseMessage, ToolMessage
-from state import SectorSentimentSubgraphState
 # --- Constants ---
 MAX_SECTOR_SENTIMENT_ATTEMPTS = 2 # Can be same or different from company attempts
-
+logger = config.logger
 # --- State Definition for this Subgraph (can be here or imported from state.py) ---
 
 
@@ -203,15 +195,11 @@ sector_sentiment_analysis_subgraph_runnable = create_sector_sentiment_analysis_g
 if __name__ == '__main__':
     import pprint
     import time
-    from dotenv import load_dotenv
-
-    if not logger.handlers:
-        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
-    logger.info("--- Running SECTOR Sentiment Analysis Subgraph Directly ---")
-    dotenv_path = os.path.join(project_root, '.env')
-    if os.path.exists(dotenv_path): load_dotenv(dotenv_path); logger.info(f".env loaded.")
-    else: logger.warning(f".env not found at {dotenv_path}.")
+    import os
+    import sys
+    from pathlib import Path
+    from config import logger, config
+    from core.state import SectorSentimentSubgraphState
 
     if not config.GOOGLE_API_KEY: logger.error("CRITICAL: GOOGLE_API_KEY missing."); exit(1)
     if not config.NEWS_API_KEY: logger.warning("NEWS_API_KEY missing. News tool may fail.")

@@ -1,22 +1,27 @@
-# retrieval_agent_graph.py
+# agents/retrieval_agent.py
 import logging
+import warnings
 from datetime import date
 
-# LangGraph and LangChain components
+# Third-party imports
 from langgraph.prebuilt import create_react_agent
 from langgraph.graph import MessagesState
 from langchain_google_genai import ChatGoogleGenerativeAI
-import warnings
 
+# Local imports
+from config.config import GEMINI_MODEL_NAME, TEMPERATURE
+from core.prompts import REACT_RETRIEVAL_SYSTEM_PROMPT
+from core.tools import (
+    search_duck_duck_go,
+    check_pdf_url_validity,
+    get_web_page_content,
+    google_search
+)
+from config import config
 # Ignore all warnings
 warnings.filterwarnings("ignore")
 
-# Project components
-from config.config import GEMINI_MODEL_NAME, TEMPERATURE
-from prompts import REACT_RETRIEVAL_SYSTEM_PROMPT
-from core.tools import search_duck_duck_go, check_pdf_url_validity, get_web_page_content,google_search
-
-logger = logging.getLogger(__name__)
+logger = config.logger
 
 # --- List of Tools for this specific agent ---
 retrieval_tools = [
@@ -31,6 +36,8 @@ current_date_str = date.today().isoformat()
 formatted_system_prompt = REACT_RETRIEVAL_SYSTEM_PROMPT.format(
     current_date=current_date_str
 )
+
+MAX_RETRIEVAL_ATTEMPTS = 2
 
 # --- Initialize the LLM ---
 try:

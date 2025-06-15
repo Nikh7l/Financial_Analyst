@@ -1,12 +1,15 @@
 # agents/router_agent.py
-import logging
 import json
+import logging
 from typing import Dict, Any
-from .base_agent import BaseAgent
-from core.state import AgentState
-from prompts import ROUTER_PROMPT_TEMPLATE 
+
+# Third-party imports
 from google import genai
-# from google.genai import types
+
+# Local imports
+from agents.base_agent import BaseAgent
+from core.state import AgentState
+from core.prompts import ROUTER_PROMPT_TEMPLATE
 
 # Get logger
 logger = logging.getLogger(__name__)
