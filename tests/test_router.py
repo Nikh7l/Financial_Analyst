@@ -9,8 +9,8 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 # ------------------------------------
 # Now you can import modules from the project root
-import config # This will run the logging configuration
-from state import AgentState
+import config.config # This will run the logging configuration
+from core.state import AgentState
 from agents.router_agent import RouterAgent
 from google import genai
 

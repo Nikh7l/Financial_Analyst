@@ -9,7 +9,7 @@ from google import genai
 from google.genai import types
 
 # Import the state definition
-from state import AgentState
+from core.state import AgentState
 
 logger = logging.getLogger(__name__)
 
