@@ -508,6 +508,10 @@ except Exception as e:
 
 # --- Main Execution Block ---
 if __name__ == "__main__":
+    # Configure LangSmith if enabled
+    if not config.LANGCHAIN_ENABLED:
+        logger.warning("LangSmith tracing is not configured. Some features may be limited.")
+    
     if not app:
         logger.info("\nERROR: Main application graph failed to compile. Exiting.")
         sys.exit(1)

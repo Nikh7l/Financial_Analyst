@@ -153,3 +153,24 @@ MAX_REPORTS_TO_FETCH = 3 # Limit for the number of reports to fetch in the retri
 NEWS_API_KEY = "7d2d56624e68498a97a6303723ebbb61"
 NEWS_API_PAGE_SIZE = 20 # Number of articles to fetch per request
 NEWS_API_DEFAULT_DAYS_AGO = 14 # Default number of days ago for news articles
+
+# --- LangSmith Configuration ---
+LANGSMITH_TRACING = os.getenv("LANGSMITH_TRACING", "false").lower() == "true"
+LANGSMITH_API_KEY = os.getenv("LANGSMITH_API_KEY")
+LANGSMITH_PROJECT = os.getenv("LANGCHAIN_PROJECT", "financial-advisor")
+
+def configure_langsmith():
+    """Configure LangSmith if API key is available."""
+    if LANGSMITH_API_KEY and LANGSMITH_TRACING:
+        try:
+            os.environ["LANGCHAIN_TRACING_V2"] = "true"
+            os.environ["LANGCHAIN_PROJECT"] = LANGSMITH_PROJECT
+            logger.info("LangSmith tracing is configured successfully.")
+            return True
+        except Exception as e:
+            logger.warning(f"Failed to configure LangSmith: {str(e)}")
+            return False
+    return False
+
+# Initialize LangSmith
+LANGCHAIN_ENABLED = configure_langsmith()
